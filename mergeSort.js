@@ -1,3 +1,4 @@
+/*
 function orderArr(myArr, leftArr, rightArr) {
   // SINGLE ELEMENT
   const newArr =
@@ -8,15 +9,16 @@ function orderArr(myArr, leftArr, rightArr) {
 }
 
 console.log(orderArr([123, 13]));
+*/
 
 function mergeSort(myArr) {
   if (myArr.length <= 1) {
-    return;
+    return myArr;
   } else {
     //Find middle of the array
-    const midArr = myArr.length / 2;
+    const midArr = Math.floor(myArr.length / 2);
     const leftArr = myArr.slice(0, midArr);
-    const rightArr = myArr.slice(midArr + 1, myArr.length);
+    const rightArr = myArr.slice(midArr);
 
     // Variables used to change position in array
     let i = 0; // left
@@ -30,10 +32,9 @@ function mergeSort(myArr) {
         j++;
       }
     }
-
-    mergeSort(leftArr);
-    mergeSort(rightArr);
-    merge(leftArr, rightArr, myArr);
+    const leftSorted = mergeSort(leftArr);
+    const rightSorted = mergeSort(rightArr);
+    merge(leftSorted, rightSorted, myArr);
     return myArr;
   }
 }
@@ -72,4 +73,4 @@ function merge(leftArr, rightArr, myArr) {
   }
 }
 
-console.log(mergeSort([3, 2, 1, 13, 8, 5, 0, 1, 1255]));
+console.log(mergeSort([3, 2, 1, 13, 8, 5, 0, 1, 6545]));
