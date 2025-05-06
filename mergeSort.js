@@ -10,67 +10,52 @@ function orderArr(myArr, leftArr, rightArr) {
 
 console.log(orderArr([123, 13]));
 */
-
 function mergeSort(myArr) {
   if (myArr.length <= 1) {
     return myArr;
   } else {
-    //Find middle of the array
+    // console.log("MY ARR", myArr);
+    // Split in half
     const midArr = Math.floor(myArr.length / 2);
+
+    // Recursive sorts
     const leftArr = myArr.slice(0, midArr);
     const rightArr = myArr.slice(midArr);
 
-    // Variables used to change position in array
-    let i = 0; // left
-    let j = 0; // right
+    const sortedLeft = mergeSort(leftArr);
+    const sortedRight = mergeSort(rightArr);
 
-    for (i; i < myArr.length; i++) {
-      if (i < midArr) {
-        leftArr[i] = myArr[i];
-      } else {
-        rightArr[j] = myArr[i];
-        j++;
-      }
-    }
-    const leftSorted = mergeSort(leftArr);
-    const rightSorted = mergeSort(rightArr);
-    merge(leftSorted, rightSorted, myArr);
-    return myArr;
+    //console.log("LEFT", sortedLeft, " || RIGHT", sortedRight);
+    // Send the divided arrays into the merge function
+    return merge(sortedLeft, sortedRight);
   }
 }
 
-function merge(leftArr, rightArr, myArr) {
-  let leftSize = myArr.length / 2;
-  let rightSize = myArr.length - leftSize;
-  // Indexes
-  let i = 0,
-    l = 0,
-    r = 0;
+function merge(sortedLeft, sortedRight) {
+  console.log("SORTED LEFT", sortedLeft);
+  console.log("SORTED RIGHT", sortedRight);
+  // Create a new array with sorted data
+  const newArr = [];
 
-  // Check merging conditions
-  while (l < leftSize && r < rightSize) {
-    if (leftArr[l] < rightArr[r]) {
-      myArr[i] = leftArr[l];
+  let i = 0;
+  let j = 0;
+
+  // Push item with the lowest value first
+  while (i < sortedLeft.length && j < sortedRight.length) {
+    if (sortedLeft[i] < sortedRight[j]) {
+      newArr.push(sortedLeft[i]);
       i++;
-      l++;
     } else {
-      myArr[i] = rightArr[r];
-      i++;
-      r++;
+      newArr.push(sortedRight[j]);
+      j++;
     }
   }
 
-  // Remaining elements
-  while (l < leftSize) {
-    myArr[i] = leftArr[l];
-    i++;
-    l++;
-  }
-  while (r < rightSize) {
-    myArr[i] = rightArr[r];
-    i++;
-    r++;
-  }
+  // Add remainers to the end of the array
+  newArr.push(...sortedLeft.slice(i));
+  newArr.push(...sortedRight.slice(j));
+
+  return newArr;
 }
 
-console.log(mergeSort([3, 2, 1, 13, 8, 5, 0, 1, 6545]));
+console.log(mergeSort([12, 8, 9, 11, 3, 3, 5, 4]));
